@@ -24,20 +24,14 @@ function getElementsByXPath(xpath, parent) {
   return results;
 }
 
-// function click_like_button() {
-//   for (var i = 0; i < document.getElementsByClassName("gewbibgg").length; i++) {
-//     if (document.getElementsByClassName("gewbibgg")[i].src == like_btn_src) {
-//       var like_button = document.getElementsByClassName("gewbibgg")[i];
-//     }
-//   }
-//   like_button.click();
-// }
-
 function get_profiles_list() {
   var profiles_list = [];
-  var reaction_popup_children = getElementsByXPath(
+  var reaction_popup_children_parent = getElementsByXPath(
     "/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[1]"
-  )[0].children;
+  )[0] || getElementsByXPath(
+    "/html/body/div[1]/div/div[1]/div/div[6]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[1]"
+  )[0];
+  var reaction_popup_children = reaction_popup_children_parent.children;
   for (var i = 0; i < reaction_popup_children.length; i++) {
     profiles_list.push(reaction_popup_children[i]);
   }
@@ -49,32 +43,20 @@ function check_reaction_popup_status() {
     if (
       getElementsByXPath(
         "/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div"
+      )[0] || getElementsByXPath(
+        "/html/body/div[1]/div/div[1]/div/div[6]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div"
       )[0]
     ) {
       clearInterval(time);
       var profile_list_scroll = getElementsByXPath(
         "/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div"
+      )[0] || getElementsByXPath(
+        "/html/body/div[1]/div/div[1]/div/div[6]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div[2]/div[2]/div/div"
       )[0];
       scrollTillEnd(profile_list_scroll);
     }
   }, 500);
 }
-
-// function click_all_button() {
-//   var profiles_list_all_button =
-//     get_profiles_list()[0].parentElement.parentElement.parentElement
-//       .parentElement.parentElement.parentElement.children[0].children[0]
-//       .children[0].children[0].children[0].children[0].children[0].children[0];
-//   profiles_list_all_button.click();
-// }
-
-// function click_close_button(all_profiles_list) {
-//   popup_close_button =
-//     all_profiles_list[0].parentElement.parentElement.parentElement.parentElement
-//       .parentElement.parentElement.children[0].children[0].children[1]
-//       .children[0];
-//   popup_close_button.click();
-// }
 
 function get_profile_href() {
   var all_profiles_list = get_profiles_list();
